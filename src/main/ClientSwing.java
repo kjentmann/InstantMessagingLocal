@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import publisher.Publisher;
 import subscriber.Subscriber;
 import topicmanager.TopicManager;
@@ -96,9 +97,17 @@ public class ClientSwing {
 
     class showTopicsHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            if (topicManager.topics()!=null){
+                for (String topic : topicManager.topics()){
+                    topic_list_TextArea.append(topic);
+                }
+            }
+            else{
+                topic_list_TextArea.append("No topics yet\n");
+            }
         }
     }
+    
     class newPublisherHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             //...

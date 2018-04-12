@@ -23,7 +23,7 @@ public class TopicManagerImpl implements TopicManager {
             return true;
         }
         else{
-            System.out.println("DEBUG: Topic dont exist.");
+            System.out.println("DEBUG: Topic don't exist.");
             return false;
         }
     }
@@ -48,21 +48,38 @@ public class TopicManagerImpl implements TopicManager {
         //...
     }
     
-    public Publisher addPublisherToTopic(String topic){        
+    public Publisher addPublisherToTopic(String topic){
+        PublisherAdmin publisher;
+        publisher = new PublisherImpl(topic);
+        topicMap.put(topic, publisher);
+        return publisher;
+        
+        
         //...
-        return null;
+        //return null;
     }
+    
     public int removePublisherFromTopic(String topic){
+        this.topicMap.remove(topic);
         //...
+   
         return -1;
     }
     public boolean subscribe(String topic, Subscriber subscriber){
+        if(isTopic(topic)){
+           this.topicMap.get(topic).attachSubscriber(subscriber);
+            return true;
+        }else{
+            return false;
+        }
+        
         //this.topicMap.put(topic, )
         //...        
-        return true;
+        //return true;
     }
     public boolean unsubscribe(String topic, Subscriber subscriber){
-        //...
+        this.topicMap.get(topic).detachSubscriber(subscriber);
+//...
         return true;
     }
 }
