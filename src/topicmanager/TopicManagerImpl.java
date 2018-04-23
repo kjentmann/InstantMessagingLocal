@@ -11,7 +11,6 @@ import publisher.PublisherImpl;
 import subscriber.Subscriber;
 
 public class TopicManagerImpl implements TopicManager {
-
     private Map<String,PublisherAdmin> topicMap;
 
     public TopicManagerImpl() {
@@ -26,44 +25,40 @@ public class TopicManagerImpl implements TopicManager {
             System.out.println("DEBUG: Topic don't exist.");
             return false;
         }
-    }
         //...
+    }
 
         
     public Set<String> topics(){
-        
         if (topicMap.isEmpty()){
             return null;
         }
         Set<String> topicSet;
         topicSet = new HashSet<String>();
-       // Map<String, PublisherAdmin> map = topicMap;
-        for (Map.Entry<String, PublisherAdmin> entry : topicMap.entrySet())
-        {
+        for (Map.Entry<String, PublisherAdmin> entry : topicMap.entrySet()){
             topicSet.add(entry.getKey());
-            System.out.println("topic: " + entry.getKey());
+            System.out.println("DEBUG: Current topics: " + entry.getKey());
         }
         return topicSet;
-        
         //...
     }
     
     public Publisher addPublisherToTopic(String topic){
-        PublisherAdmin publisher;
-        publisher = new PublisherImpl(topic);
-        topicMap.put(topic, publisher);
-        return publisher;
-        
-        
+        PublisherAdmin publishAdm;
+        publishAdm = new PublisherImpl(topic);
+        publishAdm.incPublishers();
+        this.topicMap.put(topic, publishAdm);
+        return publishAdm;
         //...
-        //return null;
     }
     
     public int removePublisherFromTopic(String topic){
+        topicMap.get(topic).decPublishers();
+        topicMap.get(topic).detachAllSubscribers();
         this.topicMap.remove(topic);
-        //...
-   
         return -1;
+                //...
+
     }
     public boolean subscribe(String topic, Subscriber subscriber){
         if(isTopic(topic)){
@@ -72,11 +67,9 @@ public class TopicManagerImpl implements TopicManager {
         }else{
             return false;
         }
-        
-        //this.topicMap.put(topic, )
-        //...        
-        //return true;
+         //...
     }
+    
     public boolean unsubscribe(String topic, Subscriber subscriber){
         if(isTopic(topic)){
             this.topicMap.get(topic).detachSubscriber(subscriber);
@@ -85,6 +78,6 @@ public class TopicManagerImpl implements TopicManager {
         else{
             return false;
         }
-    } //...
-    
+         //...
+    } 
 }

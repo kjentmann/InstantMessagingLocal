@@ -13,7 +13,7 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
     
     public PublisherImpl(String topic){
         subscriberSet = new HashSet<Subscriber>();
-        numPublishers = 1;
+        numPublishers = 0;
         this.topic = topic;
     }
     public int incPublishers(){
@@ -37,7 +37,6 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
     public void publish(String topic, String event) {
         //..
         int num =0;
-        
         for (Subscriber sub : subscriberSet){
             num ++;
             sub.onEvent(topic, event);
