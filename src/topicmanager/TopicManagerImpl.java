@@ -78,8 +78,13 @@ public class TopicManagerImpl implements TopicManager {
         //return true;
     }
     public boolean unsubscribe(String topic, Subscriber subscriber){
-        this.topicMap.get(topic).detachSubscriber(subscriber);
-//...
-        return true;
-    }
+        if(isTopic(topic)){
+            this.topicMap.get(topic).detachSubscriber(subscriber);
+            return true;
+        }
+        else{
+            return false;
+        }
+    } //...
+    
 }

@@ -2,12 +2,15 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import publisher.Publisher;
 import subscriber.Subscriber;
+import subscriber.SubscriberImpl;
 import topicmanager.TopicManager;
 
 public class ClientSwing {
@@ -32,7 +35,7 @@ public class ClientSwing {
     public void createAndShowGUI() {
 
         frame = new JFrame("Publisher/Subscriber demo");
-        frame.setSize(300,300);
+        frame.setSize(900,350);
         frame.addWindowListener(new CloseWindowHandler());
         
         topic_list_TextArea = new JTextArea(5,10);
@@ -91,40 +94,117 @@ public class ClientSwing {
         mainPanel.add(argumentP,BorderLayout.PAGE_END);
         mainPanel.add(topicsP,BorderLayout.LINE_START);
 
-        frame.pack();
+        messages_TextArea.setEditable(false);
+        topic_list_TextArea.setEditable(false);
+        my_subscriptions_TextArea.setEditable(false);
+        publisher_TextArea.setEditable(false);
+        
+        //frame.pack();disable to use manual size of frame.
         frame.setVisible(true);
+        argument_TextField.grabFocus();
     }
+    
+    private static String getCurrentTime() {
+    SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm ");//dd/MM/yyyy
+    Date now = new Date();
+    String strTime = sdfTime.format(now);
+    return strTime;
+}
 
     class showTopicsHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             if (topicManager.topics()!=null){
+                topic_list_TextArea.setText(null);
                 for (String topic : topicManager.topics()){
-                    topic_list_TextArea.append(topic);
+                    topic_list_TextArea.append(topic + "\n");
                 }
             }
             else{
+                topic_list_TextArea.setText(null);
                 topic_list_TextArea.append("No topics yet\n");
             }
+                argument_TextField.grabFocus();
         }
     }
     
     class newPublisherHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
-            //...
+            String topic = argument_TextField.getText();
+            argument_TextField.setText(null);
+            if (topic.isEmpty()){
+                messages_TextArea.append(getCurrentTime() + "SYSTEM: Missing input.\n"); 
+            }
+            else{
+                publisher = topicManager.addPublisherToTopic(topic);
+                publisherTopic=topic;
+                publisher_TextArea.setText(null);
+                publisher_TextArea.append(topic + "\n");
+                messages_TextArea.append(getCurrentTime() + "SYSTEM: You are publisher of topic '"+ topic + "̈́'.\n"); 
+            }
+            argument_TextField.grabFocus();
         }
+//...
     }
     class newSubscriberHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            String topic = argument_TextField.getText();
+            argument_TextField.setText(null);
+            if (topic.isEmpty()){
+                messages_TextArea.append(getCurrentTime() + "SYSTEM: Missing input.\n"); 
+                argument_TextField.grabFocus();
+
+            }
+            else{
+                Subscriber newsubscriber;
+                //ClientSwing client = new ClientSwing(topicManager);
+                newsubscriber = new SubscriberImpl(ClientSwing.this);
+                
+                
+                if (topicManager.subscribe(topic, newsubscriber)){
+                    messages_TextArea.append(getCurrentTime() + " SYSTEM: Subscribed on topic '"+ topic + "̈́'.\n"); 
+                    my_subscriptions_TextArea.append(topic + "\n");
+           }
+           else{
+               messages_TextArea.append(getCurrentTime() + "SYSTEM: Topic '"+ topic + "̈́' does not exist.\n");
+           }
+           argument_TextField.grabFocus();
+           
+            //topicManager.subscribe(publisherTopic, subscriber)
             //...
         }
     }
+    }
     class UnsubscribeHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
+            String topic = argument_TextField.getText();
+            argument_TextField.setText(null);
+            if (topicManager.unsubscribe(topic,my_subscriptions.get(topic)) ){
+                    messages_TextArea.append(getCurrentTime() + "SYSTEM: Unsubscribed on topic '"+ topic + "̈́'.\n"); 
+            }
+             else{
+               messages_TextArea.append(getCurrentTime() + "SYSTEM: Topic '"+ topic + "̈́' does not exist.\n");
+           }
+           argument_TextField.grabFocus();
+            
+           
             //...
         }
     }
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            if (publisher != null){
+                String event = argument_TextField.getText();
+                if (!event.isEmpty()){
+                    argument_TextField.setText(null);
+                    publisher.publish(publisherTopic, event);
+                   // publisher.publish("mads", "hello"); FIX
+                    messages_TextArea.append(getCurrentTime() + "Published: " + event + "\n");
+                }
+                }
+            else{
+                messages_TextArea.append(getCurrentTime() + "SYSTEM: No publisher exist.\n");
+            }
+            argument_TextField.grabFocus();
             //...
         }
     }

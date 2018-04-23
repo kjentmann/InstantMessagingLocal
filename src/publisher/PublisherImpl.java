@@ -36,11 +36,12 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
     }
     public void publish(String topic, String event) {
         //..
-        Iterator<Subscriber> iterator = subscriberSet.iterator();
-        while  (iterator.hasNext()) {
-            Subscriber subName = iterator.next();
-            subName.onEvent(topic, event);
-            System.out.println("DEBUG: published to subscriber" + subName);
+        int num =0;
+        
+        for (Subscriber sub : subscriberSet){
+            num ++;
+            sub.onEvent(topic, event);
+            System.out.println("DEBUG: Publisher published to subscriber " + num);
         }  
     }
 }

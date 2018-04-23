@@ -39,6 +39,7 @@ public class SubscriberImpl implements Subscriber {
         }
 
         public void onEvent(String topic, String event) {
-                messages_TextArea.append(topic+": "+event+"\n");
+                  messages_TextArea.append(topic+": "+event+"\n");
+                  System.out.println("tjommi");
         }
     }
