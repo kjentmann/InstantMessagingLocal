@@ -13,7 +13,7 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
     
     public PublisherImpl(String topic){
         subscriberSet = new HashSet<Subscriber>();
-        numPublishers = 0;
+        numPublishers = 1;
         this.topic = topic;
     }
     public int incPublishers(){
@@ -28,14 +28,20 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
     }
     public void detachSubscriber(Subscriber subscriber) {
         this.subscriberSet.remove(subscriber);
+        subscriber.onClose(topic,"SUBSCRIBER");
         //...
     }
     public void detachAllSubscribers() {
-        this.subscriberSet.clear();
+        //System.out.println("DEBUG: Current num of publishers of '" + topic + "': " + numPublishers);
+       // if (numPublishers<1){
+            for (Subscriber sub : this.subscriberSet){
+                   sub.onClose(topic,"PUBLISHER");
+         //   }
+            this.subscriberSet.clear();
+        }
         //...
     }
     public void publish(String topic, String event) {
-        //..
         int num =0;
         for (Subscriber sub : subscriberSet){
             num ++;

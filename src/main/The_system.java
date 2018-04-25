@@ -19,13 +19,29 @@ public class The_system {
         javax.swing.SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                         ClientSwing client = new ClientSwing(topicManager);
+                        client.clientName="Client 1";
                         client.createAndShowGUI();
                 }
         });
         javax.swing.SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                         ClientSwing client = new ClientSwing(topicManager);
+                        client.clientName="Client 2";
                         client.createAndShowGUI();
+                }
+        });
+        javax.swing.SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                        ClientSwing client = new ClientSwing(topicManager);
+                        client.clientName="Client 3";
+                        client.createAndShowGUI();
+                }
+        });
+        javax.swing.SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    ClientSwing client = new ClientSwing(topicManager);
+                    client.clientName="Client 4";
+                    client.createAndShowGUI();
                 }
         });
     }
