@@ -101,7 +101,7 @@ public class ClientSwing {
         my_subscriptions_TextArea.setEditable(false);
         publisher_TextArea.setEditable(false);
         
-        //frame.pack();disable to use manual size of frame.
+        //frame.pack();disabled to use manual frame size.
         frame.setVisible(true);
         argument_TextField.grabFocus();
     }
@@ -155,8 +155,8 @@ public class ClientSwing {
     class newSubscriberHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             String topic = getArg();
-            if (topic.isEmpty() || my_subscriptions.containsKey(topic))
-                messages_TextArea.append(getTime() + "SYSTEM: Subscriber exist or missing input.\n"); 
+            if (topic.isEmpty() || my_subscriptions.containsKey(topic) || topic == publisherTopic)
+                messages_TextArea.append(getTime() + "SYSTEM: Subscriber exist, publishing on same client or missing input.\n"); 
             else if (topicManager.isTopic(topic)){
                 Subscriber newsubscriber;
                 newsubscriber = new SubscriberImpl(ClientSwing.this);

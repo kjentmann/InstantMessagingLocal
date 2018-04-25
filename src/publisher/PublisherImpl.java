@@ -32,21 +32,22 @@ public class PublisherImpl implements PublisherAdmin, Publisher {
         //...
     }
     public void detachAllSubscribers() {
-        //System.out.println("DEBUG: Current num of publishers of '" + topic + "': " + numPublishers);
-       // if (numPublishers<1){
-            for (Subscriber sub : this.subscriberSet){
-                   sub.onClose(topic,"PUBLISHER");
-         //   }
-            this.subscriberSet.clear();
-        }
-        //...
+        try{
+            for (Subscriber sub : this.subscriberSet)
+            sub.onClose(topic,"PUBLISHER");
+            }
+        catch(Exception exx){
+            System.out.println("DEBUG: exception catched, sub dont exist");
+            }
+        this.subscriberSet.clear();
     }
+    
     public void publish(String topic, String event) {
         int num =0;
         for (Subscriber sub : subscriberSet){
             num ++;
             sub.onEvent(topic, event);
-            System.out.println("DEBUG: Publisher published to subscriber " + num);
+            System.out.println("DEBUG: Publisher published to subscriber # " + num);
         }  
     }
 }

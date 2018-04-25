@@ -23,7 +23,6 @@ public class TopicManagerImpl implements TopicManager {
         else{
             return false;
         }
-        //...
     }
 
         
@@ -35,7 +34,6 @@ public class TopicManagerImpl implements TopicManager {
         topicSet = new HashSet<String>();
         for (Map.Entry<String, PublisherAdmin> entry : topicMap.entrySet()){
             topicSet.add(entry.getKey());
-            //System.out.println("DEBUG: Current topics: " + entry.getKey());
         }
         return topicSet;
         //...
@@ -77,13 +75,11 @@ public class TopicManagerImpl implements TopicManager {
     
     public boolean unsubscribe(String topic, Subscriber subscriber){
         if(isTopic(topic)){
-
             this.topicMap.get(topic).detachSubscriber(subscriber);
             return true;
         }
         else{
             return false;
         }
-         //...
     } 
 }
