@@ -19,15 +19,6 @@
             <file>file:/home/madsoft/code/InstantMessagingLocal/src/subscriber/SubscriberImpl.java</file>
             <file>file:/home/madsoft/code/InstantMessagingLocal/src/subscriber/Subscriber.java</file>
         </group>
-        <group>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/topicmanager/TopicManagerImpl.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/topicmanager/TopicManager.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/main/The_system.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/publisher/PublisherImpl.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/publisher/PublisherAdmin.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/main/ClientSwing.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/subscriber/SubscriberImpl.java</file>
-            <file>file:/home/madsoft/code/InstantMessagingLocal/src/subscriber/Subscriber.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

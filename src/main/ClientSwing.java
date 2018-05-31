@@ -18,7 +18,7 @@ public class ClientSwing {
     public Map<String,Subscriber> my_subscriptions;
     Publisher publisher;
     String publisherTopic;
-    public String clientName; 
+    public String clientName;
     TopicManager topicManager;
     JFrame frame;
     JTextArea topic_list_TextArea;
@@ -26,20 +26,20 @@ public class ClientSwing {
     public JTextArea my_subscriptions_TextArea;
     JTextArea publisher_TextArea;
     JTextField argument_TextField;
-    
+
     public ClientSwing(TopicManager topicManager) {
         my_subscriptions = new HashMap<String,Subscriber>();
         publisher = null;
         this.topicManager = topicManager;
         publisherTopic=null;
-        
+
     }
     public void createAndShowGUI() {
 
         frame = new JFrame("DSIT - Mads Fornes - Pub/Sub   " + clientName);
         frame.setSize(900,350);
         frame.addWindowListener(new CloseWindowHandler());
-        
+
         topic_list_TextArea = new JTextArea(5,10);
         messages_TextArea = new JTextArea(10,20);
         my_subscriptions_TextArea = new JTextArea(5,10);
@@ -100,12 +100,12 @@ public class ClientSwing {
         topic_list_TextArea.setEditable(false);
         my_subscriptions_TextArea.setEditable(false);
         publisher_TextArea.setEditable(false);
-        
+
         //frame.pack();disabled to use manual frame size.
         frame.setVisible(true);
         argument_TextField.grabFocus();
     }
-    
+
      private static String getTime() {
             SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-MM-dd HH:mm ");
             return sdfTime.format(new Date());
@@ -132,12 +132,12 @@ public class ClientSwing {
                 argument_TextField.grabFocus();
         }
     }
-    
+
     class newPublisherHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             String topic = getArg();
             if (topic.isEmpty()){
-                messages_TextArea.append(getTime() + "SYSTEM: Missing input.\n"); 
+                messages_TextArea.append(getTime() + "SYSTEM: Missing input.\n");
             }
             else{
                     if (publisherTopic!=null){
@@ -147,29 +147,29 @@ public class ClientSwing {
                 publisherTopic=topic;
                 publisher_TextArea.setText(null);
                 publisher_TextArea.append(topic + "\n");
-                messages_TextArea.append(getTime() + "SYSTEM: You are publisher of topic '"+ topic + "̈́'.\n"); 
+                messages_TextArea.append(getTime() + "SYSTEM: You are publisher of topic '"+ topic + "̈́'.\n");
             }
         }
     }
-    
+
     class newSubscriberHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             String topic = getArg();
             if (topic.isEmpty() || my_subscriptions.containsKey(topic) || topic == publisherTopic)
-                messages_TextArea.append(getTime() + "SYSTEM: Subscriber exist, publishing on same client or missing input.\n"); 
+                messages_TextArea.append(getTime() + "SYSTEM: Subscriber exist, publishing on same client or missing input.\n");
             else if (topicManager.isTopic(topic)){
                 Subscriber newsubscriber;
                 newsubscriber = new SubscriberImpl(ClientSwing.this);
                 topicManager.subscribe(topic, newsubscriber);              // Note: adding subscriber to the actual publishers list
                 my_subscriptions.put(topic, newsubscriber);                // Note: adding subscriber to clientSwing subscribers list
                 my_subscriptions_TextArea.append(topic + "\n");
-                messages_TextArea.append(getTime() + "SYSTEM: Subscribed on topic '"+ topic + "̈́'.\n"); 
+                messages_TextArea.append(getTime() + "SYSTEM: Subscribed on topic '"+ topic + "̈́'.\n");
             }
             else
                 messages_TextArea.append(getTime() + "SYSTEM: Topic '"+ topic + "̈́' does not exist.\n");
         }
     }
-    
+
     class UnsubscribeHandler implements ActionListener{
         public void actionPerformed(ActionEvent e) {
             String topic = getArg();
@@ -190,7 +190,7 @@ public class ClientSwing {
             }
         }
     }
-    
+
     class postEventHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (publisher != null){
@@ -205,7 +205,7 @@ public class ClientSwing {
             }
         }
     }
-    
+
     class CloseAppHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);

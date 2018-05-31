@@ -12,7 +12,6 @@ import main.ClientSwing;
 
 /**
  *
- * @author juanluis
  */
 public class SubscriberImpl implements Subscriber {
 
